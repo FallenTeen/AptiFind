@@ -1,0 +1,155 @@
+import { PageLayout, PageHeader, PageContent, Card, CardContent } from '@/components/page-layout';
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
+import { Head, Link } from '@inertiajs/react';
+import { Search, Plus, Eye, Edit, Trash2 } from 'lucide-react';
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Dashboard',
+        href: '/dashboard',
+    },
+    {
+        title: 'Evaluasi Search Engine',
+        href: '/admin/evaluasi-search-engine',
+    },
+];
+
+interface Evaluasi {
+    id: number;
+    user: {
+        name: string;
+        email: string;
+    };
+    perguruan_tinggi: {
+        nama: string;
+        kota: string;
+    };
+    skor_total: number;
+    kategori_kualitas: string;
+    waktu_evaluasi: string;
+}
+
+interface Props {
+    evaluasi: {
+        data: Evaluasi[];
+        links: any[];
+        current_page: number;
+        last_page: number;
+        per_page: number;
+        total: number;
+    };
+    filters: any;
+    perguruanTinggi: any[];
+}
+
+export default function AdminEvaluasiSearchEngineIndex({ evaluasi, filters, perguruanTinggi }: Props) {
+    return (
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Evaluasi Search Engine - Admin" />
+            <PageLayout>
+                <PageHeader 
+                    title="Evaluasi Search Engine"
+                    subtitle="Kelola evaluasi search engine perguruan tinggi"
+                >
+                    <Link
+                        href="/admin/evaluasi-search-engine/create"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                        <Plus className="w-4 h-4" />
+                        Tambah Evaluasi
+                    </Link>
+                </PageHeader>
+                
+                <PageContent>
+                    <Card>
+                        <CardContent>
+                            <div className="overflow-x-auto">
+                                <table className="w-full">
+                                    <thead>
+                                        <tr className="border-b border-gray-200">
+                                            <th className="text-left py-3 px-4 font-medium text-gray-900">User</th>
+                                            <th className="text-left py-3 px-4 font-medium text-gray-900">Perguruan Tinggi</th>
+                                            <th className="text-left py-3 px-4 font-medium text-gray-900">Skor</th>
+                                            <th className="text-left py-3 px-4 font-medium text-gray-900">Kategori</th>
+                                            <th className="text-left py-3 px-4 font-medium text-gray-900">Waktu</th>
+                                            <th className="text-left py-3 px-4 font-medium text-gray-900">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {evaluasi.data.map((item) => (
+                                            <tr key={item.id} className="border-b border-gray-100">
+                                                <td className="py-3 px-4 text-gray-900">
+                                                    <div>
+                                                        <p className="font-medium">{item.user.name}</p>
+                                                        <p className="text-sm text-gray-600">{item.user.email}</p>
+                                                    </div>
+                                                </td>
+                                                <td className="py-3 px-4 text-gray-900">
+                                                    <div>
+                                                        <p className="font-medium">{item.perguruan_tinggi.nama}</p>
+                                                        <p className="text-sm text-gray-600">{item.perguruan_tinggi.kota}</p>
+                                                    </div>
+                                                </td>
+                                                <td className="py-3 px-4 text-gray-900 font-semibold">
+                                                    {item.skor_total}
+                                                </td>
+                                                <td className="py-3 px-4">
+                                                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                                                        item.kategori_kualitas === 'sangat_baik' ? 'bg-green-100 text-green-800' :
+                                                        item.kategori_kualitas === 'baik' ? 'bg-blue-100 text-blue-800' :
+                                                        item.kategori_kualitas === 'sedang' ? 'bg-yellow-100 text-yellow-800' :
+                                                        item.kategori_kualitas === 'kurang' ? 'bg-orange-100 text-orange-800' :
+                                                        'bg-red-100 text-red-800'
+                                                    }`}>
+                                                        {item.kategori_kualitas?.replace('_', ' ') || 'N/A'}
+                                                    </span>
+                                                </td>
+                                                <td className="py-3 px-4 text-gray-600 text-sm">
+                                                    {new Date(item.waktu_evaluasi).toLocaleDateString('id-ID')}
+                                                </td>
+                                                <td className="py-3 px-4">
+                                                    <div className="flex items-center gap-2">
+                                                        <Link
+                                                            href={`/admin/evaluasi-search-engine/${item.id.toString()}`}
+                                                            className="p-1 text-blue-600 hover:text-blue-800"
+                                                        >
+                                                            <Eye className="w-4 h-4" />
+                                                        </Link>
+                                                        <Link
+                                                            href={`/admin/evaluasi-search-engine/${item.id.toString()}/edit`}
+                                                            className="p-1 text-green-600 hover:text-green-800"
+                                                        >
+                                                            <Edit className="w-4 h-4" />
+                                                        </Link>
+                                                        <button
+                                                            className="p-1 text-red-600 hover:text-red-800"
+                                                            onClick={() => {
+                                                                if (confirm('Apakah Anda yakin ingin menghapus evaluasi ini?')) {
+                                                                    // Handle delete
+                                                                }
+                                                            }}
+                                                        >
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            {evaluasi.data.length === 0 && (
+                                <div className="text-center py-8">
+                                    <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                                    <p className="text-gray-500">Tidak ada evaluasi search engine ditemukan</p>
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+                </PageContent>
+            </PageLayout>
+        </AppLayout>
+    );
+} 

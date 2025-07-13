@@ -3,6 +3,7 @@ import { route } from '@/lib/route';
 import { type BreadcrumbItem } from '@/types';
 import { Link, router } from '@inertiajs/react';
 import { useState } from 'react';
+import { Check } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -98,7 +99,7 @@ export default function PaketSoalIndex({ paket }: Props) {
 
     return (
         <AppSidebarLayout breadcrumbs={breadcrumbs}>
-            <div className="mx-auto max-w-7xl">
+            <div>
                 {/* Header */}
                 <div className="mb-6 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-lg">
                     <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-8 py-6">
@@ -356,48 +357,70 @@ export default function PaketSoalIndex({ paket }: Props) {
                                                         <div className="text-2xl font-bold text-blue-600">{p.jumlah_soal}</div>
                                                         <div className="text-sm text-blue-600">soal</div>
                                                     </div>
-
-                                                    <div className="rounded-lg border border-green-200 bg-green-50 p-4">
-                                                        <div className="mb-2 flex items-center gap-2">
-                                                            <svg
-                                                                className="h-5 w-5 text-green-600"
-                                                                fill="none"
-                                                                stroke="currentColor"
-                                                                viewBox="0 0 24 24"
-                                                            >
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth={2}
-                                                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                                                                />
-                                                            </svg>
-                                                            <span className="font-medium text-green-800">Balance Minat</span>
+                                                    {balanceDiff === 0 ? (
+                                                        <div className="rounded-lg border border-green-200 bg-green-50 p-4 md:col-span-2 flex flex-col items-center justify-center">
+                                                            <div className="mb-2 flex items-center gap-2">
+                                                                <svg
+                                                                    className="h-5 w-5 text-green-600"
+                                                                    fill="none"
+                                                                    stroke="currentColor"
+                                                                    viewBox="0 0 24 24"
+                                                                >
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        strokeWidth={2}
+                                                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                                                    />
+                                                                </svg>
+                                                                <span className="font-medium text-green-800">Seimbang</span>
+                                                            </div>
+                                                            <div className="text-2xl font-bold text-green-600"><Check/></div>
                                                         </div>
-                                                        <div className="text-2xl font-bold text-green-600">{balanceMinat}</div>
-                                                        <div className="text-sm text-green-600">poin</div>
-                                                    </div>
-
-                                                    <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
-                                                        <div className="mb-2 flex items-center gap-2">
-                                                            <svg
-                                                                className="h-5 w-5 text-purple-600"
-                                                                fill="none"
-                                                                stroke="currentColor"
-                                                                viewBox="0 0 24 24"
-                                                            >
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth={2}
-                                                                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                                                                />
-                                                            </svg>
-                                                            <span className="font-medium text-purple-800">Balance Bakat</span>
-                                                        </div>
-                                                        <div className="text-2xl font-bold text-purple-600">{balanceBakat}</div>
-                                                        <div className="text-sm text-purple-600">poin</div>
-                                                    </div>
+                                                    ) : (
+                                                        <>
+                                                            <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+                                                                <div className="mb-2 flex items-center gap-2">
+                                                                    <svg
+                                                                        className="h-5 w-5 text-green-600"
+                                                                        fill="none"
+                                                                        stroke="currentColor"
+                                                                        viewBox="0 0 24 24"
+                                                                    >
+                                                                        <path
+                                                                            strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                            strokeWidth={2}
+                                                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                                                        />
+                                                                    </svg>
+                                                                    <span className="font-medium text-green-800">Balance Minat</span>
+                                                                </div>
+                                                                <div className="text-2xl font-bold text-green-600">{balanceMinat}</div>
+                                                                <div className="text-sm text-green-600">poin</div>
+                                                            </div>
+                                                            <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
+                                                                <div className="mb-2 flex items-center gap-2">
+                                                                    <svg
+                                                                        className="h-5 w-5 text-purple-600"
+                                                                        fill="none"
+                                                                        stroke="currentColor"
+                                                                        viewBox="0 0 24 24"
+                                                                    >
+                                                                        <path
+                                                                            strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                            strokeWidth={2}
+                                                                            d="M13 10V3L4 14h7v7l9-11h-7z"
+                                                                        />
+                                                                    </svg>
+                                                                    <span className="font-medium text-purple-800">Balance Bakat</span>
+                                                                </div>
+                                                                <div className="text-2xl font-bold text-purple-600">{balanceBakat}</div>
+                                                                <div className="text-sm text-purple-600">poin</div>
+                                                            </div>
+                                                        </>
+                                                    )}
                                                 </div>
 
                                                 {balanceDiff > 0 && (

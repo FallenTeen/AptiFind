@@ -22,6 +22,8 @@ export interface NavItem {
     isActive?: boolean;
 }
 
+export type NavItemOrGroup = NavItem | NavGroup;
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };

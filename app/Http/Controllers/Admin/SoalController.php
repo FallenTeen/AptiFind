@@ -161,4 +161,13 @@ class SoalController extends Controller
 
         return $warnings;
     }
+
+    /**
+     * Public API: Get soal for minat bakat test (for guest and user)
+     */
+    public function publicSoal(): \Illuminate\Http\JsonResponse
+    {
+        $soal = Soal::select('id', 'text_soal', 'bobot_minat', 'bobot_bakat')->inRandomOrder()->limit(20)->get();
+        return response()->json(['soal' => $soal]);
+    }
 }

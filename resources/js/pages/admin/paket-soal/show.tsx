@@ -46,7 +46,7 @@ export default function PaketSoalShow({ paketSoal }: { paketSoal: PaketSoal }) {
 
   return (
     <AppSidebarLayout breadcrumbs={breadcrumbs}>
-      <div className="mx-auto max-w-4xl">
+      <div>
         <div className="mb-6 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-lg">
           <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-8 py-6">
             <h1 className="text-3xl font-bold text-white">Detail Paket Soal</h1>

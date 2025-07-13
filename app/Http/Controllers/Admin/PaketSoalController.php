@@ -10,16 +10,25 @@ use Illuminate\Validation\ValidationException;
 
 class PaketSoalController extends Controller
 {
+    /**
+     * Admin: List all paket soal
+     */
     public function index()
     {
-        $paket = PaketSoal::with('detailPaketSoal.soal')->get();
+        $paket = PaketSoal::with(['detailPaketSoal.soal'])
+            ->select('id', 'nama_paket', 'jumlah_soal', 'balance_minat', 'balance_bakat')
+            ->get();
         return inertia('admin/paket-soal/index', compact('paket'));
     }
-
-    public function create()
+    /**
+     * Public API: Get all paket soal for quiz selection (for guest and user)
+     */
+    public function publicPaketSoal(): \Illuminate\Http\JsonResponse
     {
-        $soal = Soal::all();
-        return inertia('admin/paket-soal/create', compact('soal'));
+        $paket = PaketSoal::with(['detailPaketSoal.soal'])
+            ->select('id', 'nama_paket', 'jumlah_soal', 'balance_minat', 'balance_bakat')
+            ->get();
+        return response()->json(['paket' => $paket]);
     }
 
     public function store(Request $request)
@@ -71,7 +80,7 @@ class PaketSoalController extends Controller
                     $bakat += $soal->bobot_bakat;
                     $soalData[] = $soal;
                     DetailPaketSoal::create([
-                        'paket_soal_id' => $paket->id, 
+                        'paket_soal_id' => $paket->id,
                         'soal_id' => $soal_id
                     ]);
                 }
@@ -148,13 +157,13 @@ class PaketSoalController extends Controller
             $soalData = [];
 
             foreach ($validated['soal_ids'] as $soal_id) {
-                $soal = \App\Models\Soal::where('id', $soal_id)->first(); 
+                $soal = \App\Models\Soal::where('id', $soal_id)->first();
                 if ($soal) {
                     $minat += $soal->bobot_minat;
                     $bakat += $soal->bobot_bakat;
                     $soalData[] = $soal;
                     DetailPaketSoal::create([
-                        'paket_soal_id' => $paketSoal->id, 
+                        'paket_soal_id' => $paketSoal->id,
                         'soal_id' => $soal_id
                     ]);
                 }

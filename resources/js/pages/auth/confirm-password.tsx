@@ -1,4 +1,3 @@
-// Components
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
@@ -7,54 +6,53 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AuthLayout from '@/layouts/auth-layout';
+import AuthSplitLayout from '@/layouts/auth/auth-split-layout';
+
+type ConfirmPasswordForm = {
+    password: string;
+};
 
 export default function ConfirmPassword() {
-    const { data, setData, post, processing, errors, reset } = useForm<Required<{ password: string }>>({
+    const { data, setData, post, processing, errors } = useForm<ConfirmPasswordForm>({
         password: '',
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-
-        post(route('password.confirm'), {
-            onFinish: () => reset('password'),
-        });
+        post(route('password.confirm'));
     };
 
     return (
-        <AuthLayout
-            title="Confirm your password"
-            description="This is a secure area of the application. Please confirm your password before continuing."
+        <AuthSplitLayout 
+            title="Konfirmasi Password" 
+            description="Ini adalah area yang aman dari aplikasi. Silakan konfirmasi password Anda sebelum melanjutkan."
         >
-            <Head title="Confirm password" />
-
-            <form onSubmit={submit}>
-                <div className="space-y-6">
-                    <div className="grid gap-2">
+            <Head title="Konfirmasi Password" />
+            
+            <form className="flex flex-col gap-6" onSubmit={submit}>
+                <div className="space-y-4">
+                    <div className="space-y-2">
                         <Label htmlFor="password">Password</Label>
                         <Input
                             id="password"
                             type="password"
-                            name="password"
-                            placeholder="Password"
+                            required
+                            autoFocus
                             autoComplete="current-password"
                             value={data.password}
-                            autoFocus
                             onChange={(e) => setData('password', e.target.value)}
+                            disabled={processing}
+                            placeholder="Masukkan password Anda"
                         />
-
                         <InputError message={errors.password} />
                     </div>
 
-                    <div className="flex items-center">
-                        <Button className="w-full" disabled={processing}>
-                            {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                            Confirm password
-                        </Button>
-                    </div>
+                    <Button type="submit" className="w-full" disabled={processing}>
+                        {processing && <LoaderCircle className="h-4 w-4 animate-spin mr-2" />}
+                        Konfirmasi
+                    </Button>
                 </div>
             </form>
-        </AuthLayout>
+        </AuthSplitLayout>
     );
 }

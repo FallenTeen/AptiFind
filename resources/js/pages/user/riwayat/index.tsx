@@ -19,7 +19,7 @@ interface RiwayatItem {
 export default function RiwayatIndex({ riwayat }: { riwayat: RiwayatItem[] }) {
   return (
     <AppSidebarLayout breadcrumbs={breadcrumbs}>
-      <div className="mx-auto max-w-3xl py-8">
+      <div className="py-8">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Riwayat Tes Minat & Bakat</h1>
         <p className="text-gray-600 mb-6">Berikut adalah riwayat pengerjaan tes Anda beserta hasilnya.</p>
         {riwayat.length === 0 ? (
@@ -34,11 +34,14 @@ export default function RiwayatIndex({ riwayat }: { riwayat: RiwayatItem[] }) {
           </div>
         ) : (
           <div className="space-y-4">
-            {riwayat.map((r) => (
+            {riwayat.map((r, idx) => (
               <div key={r.id} className="rounded-xl border border-gray-100 bg-white shadow-lg p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                  <div className="text-lg font-semibold text-gray-900 mb-1">{r.paket_nama}</div>
-                  <div className="text-sm text-gray-500">{new Date(r.tanggal).toLocaleString('id-ID')}</div>
+                  <div className="text-lg font-semibold text-gray-900 mb-1 flex items-center gap-2">
+                    <span className="inline-block bg-emerald-100 text-emerald-700 rounded-full px-3 py-1 text-xs font-bold">#{idx+1}</span>
+                    {r.paket_nama}
+                  </div>
+                  <div className="text-sm text-gray-500">{r.tanggal ? (new Date(r.tanggal).toLocaleString('id-ID')) : '-'}</div>
                 </div>
                 <div className="flex gap-4 items-center">
                   <div className="bg-green-50 border border-green-200 rounded-lg px-4 py-2 text-green-800 font-bold text-sm">Minat: {r.skor_minat}</div>

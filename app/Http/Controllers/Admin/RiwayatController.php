@@ -8,7 +8,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class RiwayatController extends Controller
 {
     public function index() {
-        $riwayat = JawabanUser::with('user','paketSoal')->latest()->get();
+        $riwayat = \App\Models\JawabanUser::with(['user.perguruanTinggi','paketSoal','user','paketSoal','user.perguruanTinggi'])->latest()->get();
         return inertia('admin/riwayat/index', compact('riwayat'));
     }
     public function show($id) {

@@ -252,7 +252,7 @@ export default function PaketSoalCreate({ soal }: { soal: Soal[] }) {
 
     return (
         <AppSidebarLayout breadcrumbs={breadcrumbs}>
-            <div className="mx-auto max-w-7xl">
+            <div>
                 {/* Header */}
                 <div className="mb-6 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-lg">
                     <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-8 py-6">

@@ -68,9 +68,13 @@ export default function IsiSoalShow({ paket }: { paket: Paket }) {
     setErrorMsg('');
     setSubmitted(true);
     const hasil = hitungHasil();
-    setData('skor_minat', hasil.skor_minat);
-    setData('skor_bakat', hasil.skor_bakat);
-    post(String(route('user.isi-soal.store', paket.id)));
+    post(String(route('user.isi-soal.store', paket.id)), {
+      data: {
+        ...data,
+        skor_minat: hasil.skor_minat,
+        skor_bakat: hasil.skor_bakat,
+      }
+    });
   };
   return (
     <AppSidebarLayout breadcrumbs={breadcrumbs}>
