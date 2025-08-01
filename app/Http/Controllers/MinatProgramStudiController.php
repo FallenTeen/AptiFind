@@ -11,7 +11,6 @@ class MinatProgramStudiController extends Controller
 {
     public function statistics()
     {
-        // Dummy statistik minat program studi
         $statistik = [
             'total_minat' => 0,
             'rata_rata_skor' => 0,

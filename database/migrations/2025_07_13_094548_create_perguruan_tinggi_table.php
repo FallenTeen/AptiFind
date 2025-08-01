@@ -30,7 +30,7 @@ return new class extends Migration
             $table->decimal('rating_average', 3, 2)->default(0.00);
             $table->integer('total_evaluasi')->default(0);
             $table->timestamps();
-            
+
             // Indexes
             $table->index(['jenis', 'status']);
             $table->index(['kota', 'provinsi']);

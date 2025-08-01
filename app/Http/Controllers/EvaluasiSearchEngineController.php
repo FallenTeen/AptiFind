@@ -16,7 +16,6 @@ class EvaluasiSearchEngineController extends Controller
 {
     public function export()
     {
-        // Dummy export logic, replace with actual export if needed
         return response()->json(['message' => 'Export not implemented yet.']);
     }
     public function index(Request $request)
@@ -51,7 +50,6 @@ class EvaluasiSearchEngineController extends Controller
                     'skor' => $item['skor'],
                 ]);
             }
-            // Update rating perguruan tinggi setelah evaluasi baru
             $evaluasi->perguruanTinggi?->updateRatingAverage();
             return redirect()->route('admin.evaluasi-search-engine.index')->with('success', 'Evaluasi berhasil disimpan');
         });
@@ -81,7 +79,6 @@ class EvaluasiSearchEngineController extends Controller
             'evaluasi_bulan_lalu' => 0,
             'pertumbuhan' => 0,
         ];
-        // Kategori evaluasi
         $kategoriEvaluasi = EvaluasiSearchEngine::selectRaw('kategori_kualitas as kategori, count(*) as total')
             ->groupBy('kategori_kualitas')->get()->map(function($item) {
                 return [
@@ -90,7 +87,6 @@ class EvaluasiSearchEngineController extends Controller
                     'persentase' => 0,
                 ];
             });
-        // Dummy top perguruan tinggi dan evaluasi bulanan
         $topPerguruanTinggi = [];
         $evaluasiBulanan = [];
         return inertia('admin/evaluasi-search-engine/statistics', [

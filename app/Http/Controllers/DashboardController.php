@@ -32,7 +32,6 @@ class DashboardController extends Controller
      */
     public function adminDashboard(): Response
     {
-        // Statistik umum
         $statistik = [
             'total_perguruan_tinggi' => PerguruanTinggi::count(),
             'total_program_studi' => ProgramStudi::count(),
@@ -41,32 +40,25 @@ class DashboardController extends Controller
             'total_minat_program_studi' => MinatProgramStudi::count(),
             'total_hasil_penelitian' => HasilPenelitian::count()
         ];
-
-        // Statistik user berdasarkan status
         $userStats = [
             'calon_mahasiswa' => User::where('status', 'calon_mahasiswa')->count(),
             'mahasiswa_aktif' => User::where('status', 'mahasiswa_aktif')->count(),
             'sudah_tes_minat_bakat' => User::where('sudah_tes_minat_bakat', true)->count(),
             'belum_tes_minat_bakat' => User::where('sudah_tes_minat_bakat', false)->count()
         ];
-
-        // Top perguruan tinggi berdasarkan rating
         $topPerguruanTinggi = PerguruanTinggi::orderBy('rating_average', 'desc')
             ->limit(5)
             ->get();
 
-        // Evaluasi terbaru
         $evaluasiTerbaru = EvaluasiSearchEngine::with(['perguruanTinggi', 'user'])
             ->latest('waktu_evaluasi')
             ->limit(10)
             ->get();
 
-        // Distribusi kategori evaluasi
         $kategoriEvaluasi = EvaluasiSearchEngine::selectRaw('kategori_kualitas, COUNT(*) as total')
             ->groupBy('kategori_kualitas')
             ->get();
 
-        // Trend evaluasi bulanan
         $trendEvaluasi = EvaluasiSearchEngine::selectRaw('DATE_FORMAT(waktu_evaluasi, "%Y-%m") as bulan, COUNT(*) as total')
             ->groupBy('bulan')
             ->orderBy('bulan', 'desc')
@@ -90,16 +82,12 @@ class DashboardController extends Controller
     public function userDashboard(): Response
     {
         $user = auth()->user();
-
-        // Progress tes minat-bakat
         $progressMinatBakat = [
             'sudah_tes' => $user->sudah_tes_minat_bakat,
             'waktu_tes' => $user->waktu_tes_minat_bakat_formatted,
             'total_minat_program_studi' => $user->total_minat_program_studi,
             'rekomendasi_program_studi' => $user->rekomendasi_program_studi
         ];
-
-        // Statistik evaluasi
         $statistikEvaluasi = [
             'total_evaluasi' => $user->total_evaluasi,
             'waktu_evaluasi_terakhir' => $user->waktu_evaluasi_terakhir_formatted,
@@ -109,21 +97,15 @@ class DashboardController extends Controller
                 ->limit(5)
                 ->get()
         ];
-
-        // Rekomendasi perguruan tinggi
         $rekomendasiPT = PerguruanTinggi::where('status', 'aktif')
             ->orderBy('rating_average', 'desc')
             ->limit(6)
             ->get();
-
-        // Program studi populer
         $programStudiPopuler = ProgramStudi::where('status', 'aktif')
             ->orderBy('total_minat', 'desc')
             ->with('perguruanTinggi')
             ->limit(8)
             ->get();
-
-        // Hasil penelitian user
         $hasilPenelitian = $user->hasilPenelitian()
             ->with(['perguruanTinggi', 'programStudi'])
             ->latest('waktu_penelitian')
@@ -243,7 +225,6 @@ class DashboardController extends Controller
      */
     public function researchDashboard(): Response
     {
-        // Statistik penelitian
         $statistik = [
             'total_perguruan_tinggi' => PerguruanTinggi::count(),
             'total_program_studi' => ProgramStudi::count(),
@@ -252,20 +233,14 @@ class DashboardController extends Controller
             'total_user' => User::count(),
             'total_hasil_penelitian' => HasilPenelitian::count()
         ];
-
-        // Top perguruan tinggi berdasarkan evaluasi
         $topPT = PerguruanTinggi::withCount('evaluasiSearchEngine')
             ->orderBy('rating_average', 'desc')
             ->limit(10)
             ->get();
-
-        // Program studi populer
         $populerProdi = ProgramStudi::with('perguruanTinggi')
             ->orderBy('total_minat', 'desc')
             ->limit(10)
             ->get();
-
-        // Trend evaluasi
         $trendEvaluasi = EvaluasiSearchEngine::selectRaw('DATE_FORMAT(waktu_evaluasi, "%Y-%m") as bulan, COUNT(*) as total')
             ->groupBy('bulan')
             ->orderBy('bulan', 'desc')
@@ -285,7 +260,6 @@ class DashboardController extends Controller
      */
     public function statistik(): Response
     {
-        // Statistik evaluasi
         $evaluasiStats = [
             'total' => EvaluasiSearchEngine::count(),
             'sangat_baik' => EvaluasiSearchEngine::where('kategori_kualitas', 'sangat_baik')->count(),
@@ -294,8 +268,6 @@ class DashboardController extends Controller
             'kurang' => EvaluasiSearchEngine::where('kategori_kualitas', 'kurang')->count(),
             'sangat_kurang' => EvaluasiSearchEngine::where('kategori_kualitas', 'sangat_kurang')->count()
         ];
-
-        // Statistik minat program studi
         $minatStats = [
             'total' => MinatProgramStudi::count(),
             'sangat_tinggi' => MinatProgramStudi::where('tingkat_minat', 'sangat_tinggi')->count(),
@@ -304,8 +276,6 @@ class DashboardController extends Controller
             'rendah' => MinatProgramStudi::where('tingkat_minat', 'rendah')->count(),
             'sangat_rendah' => MinatProgramStudi::where('tingkat_minat', 'sangat_rendah')->count()
         ];
-
-        // Statistik user
         $userStats = [
             'total' => User::count(),
             'calon_mahasiswa' => User::where('status', 'calon_mahasiswa')->count(),

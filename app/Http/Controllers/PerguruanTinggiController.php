@@ -18,8 +18,6 @@ class PerguruanTinggiController extends Controller
     public function index(Request $request): Response
     {
         $query = PerguruanTinggi::query();
-
-        // Filtering
         if ($request->filled('jenis')) {
             $query->where('jenis', $request->jenis);
         }
@@ -40,8 +38,6 @@ class PerguruanTinggiController extends Controller
                     ->orWhere('kota', 'like', "%{$search}%");
             });
         }
-
-        // Sorting
         $sortBy = $request->get('sort_by', 'nama');
         $sortOrder = $request->get('sort_order', 'asc');
         $query->orderBy($sortBy, $sortOrder);
@@ -103,8 +99,6 @@ class PerguruanTinggiController extends Controller
                 $query->latest()->limit(10);
             }
         ]);
-
-        // Statistik evaluasi
         $statistikEvaluasi = [
             'total_evaluasi' => $perguruanTinggi->evaluasiSearchEngine()->count(),
             'rating_rata_rata' => $perguruanTinggi->rating_average,
@@ -235,8 +229,6 @@ class PerguruanTinggiController extends Controller
                 $query->where('status', 'aktif')->orderBy('nama');
             }
         ]);
-
-        // Check if user has evaluated this PT
         $hasEvaluated = false;
         if (auth()->check()) {
             $hasEvaluated = $perguruanTinggi->evaluasiSearchEngine()
@@ -255,7 +247,6 @@ class PerguruanTinggiController extends Controller
      */
     public function evaluate(PerguruanTinggi $perguruanTinggi): Response
     {
-        // Check if user has already evaluated
         if (auth()->check()) {
             $existingEvaluation = $perguruanTinggi->evaluasiSearchEngine()
                 ->where('user_id', auth()->id())
@@ -300,9 +291,6 @@ class PerguruanTinggiController extends Controller
             'file' => 'required|file|mimes:xlsx,xls|max:2048'
         ]);
 
-        // Implementation for Excel import
-        // This would require additional packages like Maatwebsite Excel
-
         return response()->json([
             'message' => 'Import berhasil diproses'
         ]);
@@ -314,28 +302,18 @@ class PerguruanTinggiController extends Controller
     public function apiIndex(Request $request): JsonResponse
     {
         $query = PerguruanTinggi::query();
-
-        // Filter berdasarkan status
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
-
-        // Filter berdasarkan jenis
         if ($request->filled('jenis')) {
             $query->where('jenis', $request->jenis);
         }
-
-        // Filter berdasarkan kota
         if ($request->filled('kota')) {
             $query->where('kota', 'like', '%' . $request->kota . '%');
         }
-
-        // Filter berdasarkan provinsi
         if ($request->filled('provinsi')) {
             $query->where('provinsi', 'like', '%' . $request->provinsi . '%');
         }
-
-        // Search
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {

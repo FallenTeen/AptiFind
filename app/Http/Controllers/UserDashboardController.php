@@ -13,8 +13,6 @@ class UserDashboardController extends Controller
         $user = Auth::user();
         $progress = EvaluasiSearchEngine::where('user_id', $user->id)->count();
         $last = EvaluasiSearchEngine::where('user_id', $user->id)->latest()->first();
-
-        // Dummy data for all required props
         $progressMinatBakat = [
             'sudah_tes' => false,
             'waktu_tes' => null,

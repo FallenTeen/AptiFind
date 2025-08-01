@@ -14,11 +14,11 @@ return new class extends Migration
             $table->foreignId('kriteria_evaluasi_search_id')->constrained('kriteria_evaluasi_search')->onDelete('cascade');
             $table->decimal('skor', 3, 2);
             $table->timestamps();
-            $table->index(['evaluasi_search_engine_id', 'kriteria_evaluasi_search_id']);
+            // $table->index(['evaluasi_search_engine_id', 'kriteria_evaluasi_search_id']);
         });
     }
     public function down(): void
     {
         Schema::dropIfExists('detail_evaluasi_search');
     }
-}; 
+};

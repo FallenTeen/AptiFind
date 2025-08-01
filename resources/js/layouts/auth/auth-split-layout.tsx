@@ -13,38 +13,30 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
 
     return (
         <div className="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:grid-cols-2 lg:px-0">
-            {/* Left Side - Background with Decoration */}
             <div className="relative hidden h-full flex-col bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 p-10 text-white lg:flex dark:border-r overflow-hidden">
-                {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23ffffff&quot; fill-opacity=&quot;0.1&quot;%3E%3Ccircle cx=&quot;30&quot; cy=&quot;30&quot; r=&quot;2&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]" />
                 </div>
-                
-                {/* Geometric Shapes */}
                 <div className="absolute top-20 left-20 w-32 h-32 bg-white/5 rounded-full blur-xl"></div>
                 <div className="absolute bottom-20 right-20 w-24 h-24 bg-blue-400/10 rounded-full blur-lg"></div>
                 <div className="absolute top-1/2 left-10 w-16 h-16 bg-purple-400/10 rounded-full blur-md"></div>
-                
-                {/* Logo and Brand */}
+
                 <Link href={route('home')} className="relative z-20 flex items-center text-lg font-medium">
                     <AppLogoIcon className="mr-3 size-8 fill-current text-white" />
                     <span className="text-xl font-bold">{name}</span>
                 </Link>
-                
-                {/* Main Content */}
+
                 <div className="relative z-20 flex-1 flex flex-col justify-center">
                     <div className="max-w-md">
                         <h2 className="text-4xl font-bold mb-6 leading-tight">
                             Sistem Penilaian
                             <br />
-                            <span className="text-blue-300">Minat & Bakat</span>
+                            <span className="text-blue-300">SE-Evaluation</span>
                         </h2>
                         <p className="text-lg text-blue-100 mb-8 leading-relaxed">
-                            Platform terdepan untuk mengukur dan mengembangkan potensi minat dan bakat 
-                            siswa dan mahasiswa Indonesia menuju masa depan yang cerah.
+                            Platform terdepan untuk evaluasi kualitas search engine website perguruan tinggi untuk kebutuhan pengembangan.
                         </p>
-                        
-                        {/* Features */}
+
                         <div className="space-y-4">
                             <div className="flex items-center space-x-3">
                                 <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center">
@@ -73,8 +65,7 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                         </div>
                     </div>
                 </div>
-                
-                {/* Quote */}
+
                 {quote && (
                     <div className="relative z-20 mt-auto">
                         <div className="border-l-4 border-blue-400 pl-6">
@@ -85,25 +76,23 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                         </div>
                     </div>
                 )}
-                
-                {/* Bottom Decoration */}
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400"></div>
             </div>
-            
-            {/* Right Side - Form */}
-            <div className="w-full lg:p-8 bg-gray-50">
+
+            {/* FORMM */}
+            <div className="w-full lg:p-8">
                 <div className="mx-auto flex w-full flex-col justify-center space-y-6">
-                    {/* Mobile Logo */}
+                    {/* Mobile */}
                     <Link href={route('home')} className="relative z-20 flex items-center justify-center lg:hidden">
                         <AppLogoIcon className="h-12 fill-current text-blue-600" />
                     </Link>
-                    
+
                     {/* Header */}
                     <div className="flex flex-col items-start gap-2 text-left sm:items-center sm:text-center">
                         <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
                         <p className="text-sm text-gray-600">{description}</p>
                     </div>
-                    
+
                     {/* Form Content */}
                     <div className="w-full p-2">
                         {children}

@@ -48,7 +48,7 @@ export default function AdminEvaluasiSearchEngineIndex({ evaluasi, filters, perg
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Evaluasi Search Engine - Admin" />
             <PageLayout>
-                <PageHeader 
+                <PageHeader
                     title="Evaluasi Search Engine"
                     subtitle="Kelola evaluasi search engine perguruan tinggi"
                 >
@@ -60,7 +60,7 @@ export default function AdminEvaluasiSearchEngineIndex({ evaluasi, filters, perg
                         Tambah Evaluasi
                     </Link>
                 </PageHeader>
-                
+
                 <PageContent>
                     <Card>
                         <CardContent>
@@ -139,7 +139,7 @@ export default function AdminEvaluasiSearchEngineIndex({ evaluasi, filters, perg
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                             {evaluasi.data.length === 0 && (
                                 <div className="text-center py-8">
                                     <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
@@ -152,4 +152,4 @@ export default function AdminEvaluasiSearchEngineIndex({ evaluasi, filters, perg
             </PageLayout>
         </AppLayout>
     );
-} 
+}

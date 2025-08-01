@@ -16,8 +16,6 @@ class AdminDashboardController extends Controller
         $totalUser = User::count();
         $totalPerguruanTinggi = PerguruanTinggi::count();
         $totalProgramStudi = ProgramStudi::count();
-
-        // Dummy data for missing statistik fields
         $statistik = [
             'total_perguruan_tinggi' => $totalPerguruanTinggi,
             'total_program_studi' => $totalProgramStudi,
@@ -27,7 +25,6 @@ class AdminDashboardController extends Controller
             'total_hasil_penelitian' => 0,
         ];
 
-        // Dummy data for userStats
         $userStats = [
             'calon_mahasiswa' => 0,
             'mahasiswa_aktif' => 0,
